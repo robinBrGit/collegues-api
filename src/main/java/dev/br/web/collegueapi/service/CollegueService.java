@@ -1,6 +1,7 @@
 package dev.br.web.collegueapi.service;
 
 import dev.br.web.collegueapi.entite.Collegue;
+import dev.br.web.collegueapi.exception.CollegueNonTrouveException;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -35,5 +36,10 @@ public class CollegueService {
             if(c.getValue().getNom().contains(nomRecherche))collegues.add(c.getValue());
         }
         return collegues;
+    }
+
+    public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException {
+        if(!data.containsKey(matriculeRecherche))throw new CollegueNonTrouveException("Collegue non trouvé");
+        return data.get(matriculeRecherche);
     }
 }
