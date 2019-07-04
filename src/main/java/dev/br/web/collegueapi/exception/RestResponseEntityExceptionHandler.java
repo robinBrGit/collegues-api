@@ -14,4 +14,9 @@ public class RestResponseEntityExceptionHandler {
         String bodyOfResponse = "This should be application specific";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+    @ExceptionHandler(value = { CollegueInvalideException.class })
+    protected ResponseEntity<Object> handleConflictAjouter(CollegueInvalideException ex) {
+        String bodyOfResponse = "This should be application specific";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }

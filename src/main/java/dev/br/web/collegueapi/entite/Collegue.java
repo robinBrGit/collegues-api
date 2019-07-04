@@ -14,6 +14,14 @@ public class Collegue {
     public Collegue() {
     }
 
+    public Collegue(String nom, String prenoms, String email, LocalDate dateDeNaissance, String photoUrl) {
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.email = email;
+        this.dateDeNaissance = dateDeNaissance;
+        this.photoUrl = photoUrl;
+    }
+
     public Collegue(String matricule, String nom, String prenoms, String email, LocalDate dateDeNaissance, String photoUrl) {
         this.matricule = matricule;
         this.nom = nom;

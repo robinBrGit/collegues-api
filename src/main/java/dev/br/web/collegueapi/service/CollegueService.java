@@ -1,6 +1,7 @@
 package dev.br.web.collegueapi.service;
 
 import dev.br.web.collegueapi.entite.Collegue;
+import dev.br.web.collegueapi.exception.CollegueInvalideException;
 import dev.br.web.collegueapi.exception.CollegueNonTrouveException;
 
 import java.time.LocalDate;
@@ -41,5 +42,28 @@ public class CollegueService {
     public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException {
         if(!data.containsKey(matriculeRecherche))throw new CollegueNonTrouveException("Collegue non trouvé");
         return data.get(matriculeRecherche);
+    }
+
+    public Collegue ajouterUnCollegue(Collegue collegueAAjouter) throws CollegueInvalideException {
+        // TODO Vérifier que le nom et les prenoms ont chacun au moins 2 caractères
+        // TODO Vérifier que l'email a au moins 3 caractères et contient `@`
+        // TODO Vérifier que la photoUrl commence bien par `http`
+        // TODO Vérifier que la date de naissance correspond à un age >= 18
+        // TODO Si une des règles ci-dessus n'est pas valide, générer une exception :
+        // `CollegueInvalideException`.
+        if(collegueAAjouter.getNom().length() < 2
+                || collegueAAjouter.getPrenoms().length()<2)throw new CollegueInvalideException("Le nom/prenom doit contenir 2 caractère minimum");
+        if(collegueAAjouter.getEmail().length() < 3
+                || !collegueAAjouter.getEmail().contains("@"))throw new CollegueInvalideException("email invalide");
+        if(!collegueAAjouter.getPhotoUrl().startsWith("http"))throw new CollegueInvalideException("url de la photo invalide");
+        if(collegueAAjouter.getDateDeNaissance().plusYears(18).isAfter(LocalDate.now()))throw new CollegueInvalideException("Age minimum = 18 ans");
+
+        // TODO générer un matricule pour ce collègue (`UUID.randomUUID().toString()`)
+        String matricule = UUID.randomUUID().toString();
+        collegueAAjouter.setMatricule(matricule);
+
+        // TODO Sauvegarder le collègue
+        data.put(matricule,collegueAAjouter);
+        return collegueAAjouter;
     }
 }
