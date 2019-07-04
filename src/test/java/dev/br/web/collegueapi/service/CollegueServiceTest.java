@@ -2,6 +2,7 @@ package dev.br.web.collegueapi.service;
 
 import dev.br.web.collegueapi.entite.Collegue;
 import dev.br.web.collegueapi.exception.CollegueInvalideException;
+import dev.br.web.collegueapi.exception.CollegueNonTrouveException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -11,6 +12,7 @@ import static org.junit.Assert.*;
 
 public class CollegueServiceTest {
 
+    // TODO: 04/07/2019 Optimiser les test
 
     @Test
     public void ajouterUnCollegueTestNomPrenom() {
@@ -132,7 +134,7 @@ public class CollegueServiceTest {
         }catch (CollegueInvalideException e){
             assertTrue(true);
         }
-        testAge.setDateDeNaissance(LocalDate.of(1993,12,11));
+        testAge.setDateDeNaissance(LocalDate.now().minusYears(18).minusDays(1));
         //test age valide
         try {
             coll.ajouterUnCollegue(testAge);
@@ -143,5 +145,123 @@ public class CollegueServiceTest {
     }
 
 
+    @Test
+    public void modifierEmail() {
+        CollegueService coll = new CollegueService();
+        Collegue test = new Collegue();
+        test.setNom("nom");
+        test.setPrenoms("prenom");
+        test.setEmail("zaeaze@");
+        test.setDateDeNaissance(LocalDate.now().minusYears(18).minusDays(1));
+        test.setPhotoUrl("http");
+        try {
+            test=coll.ajouterUnCollegue(test);
+        }catch (CollegueInvalideException e){
+            assertTrue(false);
+        }
+        //On test de modifier un matricule inexistant
+        String matricule = "0bf06670-33e7-40df-b5ed-c6014b74b1f5";
+        String email = "ooo@o";
+        try {
+            coll.modifierEmail(matricule,email);
+            assertTrue(false);
+        }
+        catch (CollegueNonTrouveException e){
+            assertTrue(true);
+        }
+        catch (CollegueInvalideException e){
+            assertTrue(false);
+        }
+        //on test de modfifier un matricule existant avec un email invalide
+        matricule  = test.getMatricule();
+        email = "er";
+        try {
+            coll.modifierEmail(matricule,email);
+            assertTrue(false);
+        }
+        catch (CollegueNonTrouveException e){
+            assertTrue(false);
+        }
+        catch (CollegueInvalideException e){
+            assertTrue(true);
+        }
+        email = "zefzefzfe";
+        try {
+            coll.modifierEmail(matricule,email);
+            assertTrue(false);
+        }
+        catch (CollegueNonTrouveException e){
+            assertTrue(false);
+        }
+        catch (CollegueInvalideException e){
+            assertTrue(true);
+        }
+        //on test une email valide
+        email="ezae@";
+        try {
+            coll.modifierEmail(matricule,email);
+            assertTrue(true);
+        }
+        catch (CollegueNonTrouveException e){
+            assertTrue(false);
+        }
+        catch (CollegueInvalideException e){
+            assertTrue(false);
+        }
 
+    }
+
+    @Test
+    public void modifierPhotoUrl() {
+        CollegueService coll = new CollegueService();
+        Collegue test = new Collegue();
+        test.setNom("nom");
+        test.setPrenoms("prenom");
+        test.setEmail("zaeaze@");
+        test.setDateDeNaissance(LocalDate.now().minusYears(18).minusDays(1));
+        test.setPhotoUrl("http");
+        try {
+            test=coll.ajouterUnCollegue(test);
+        }catch (CollegueInvalideException e){
+            assertTrue(false);
+        }
+        //On test de modifier une photo invalide
+        String matricule = "0bf06670-33e7-40df-b5ed-c6014b74b1f5";
+        String photoUrl = "ooo";
+        try {
+            coll.modifierPhotoUrl(matricule,photoUrl);
+            assertTrue(false);
+        }
+        catch (CollegueNonTrouveException e){
+            assertTrue(true);
+        }
+        catch (CollegueInvalideException e){
+            assertTrue(false);
+        }
+        //on test de modfifier un matricule existant avec une photo invalide
+        matricule  = test.getMatricule();
+        photoUrl = "ere";
+        try {
+            coll.modifierPhotoUrl(matricule,photoUrl);
+            assertTrue(false);
+        }
+        catch (CollegueNonTrouveException e){
+            assertTrue(false);
+        }
+        catch (CollegueInvalideException e){
+            assertTrue(true);
+        }
+        //on test une photo valide
+        photoUrl="http";
+        try {
+            coll.modifierPhotoUrl(matricule,photoUrl);
+            assertTrue(true);
+        }
+        catch (CollegueNonTrouveException e){
+            assertTrue(false);
+        }
+        catch (CollegueInvalideException e){
+            assertTrue(false);
+        }
+    }
 }

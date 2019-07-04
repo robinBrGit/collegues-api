@@ -1,5 +1,7 @@
-package dev.br.web.collegueapi.exception;
+package dev.br.web.collegueapi.controller;
 
+import dev.br.web.collegueapi.exception.CollegueInvalideException;
+import dev.br.web.collegueapi.exception.CollegueNonTrouveException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
