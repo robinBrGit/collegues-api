@@ -13,12 +13,10 @@ public class RestResponseEntityExceptionHandler {
     // dans la liste définie par l'annotation @ExceptionHandler
     @ExceptionHandler(value = { CollegueNonTrouveException.class })
     protected ResponseEntity<Object> handleConflict(CollegueNonTrouveException ex) {
-        String bodyOfResponse = "This should be application specific";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
     @ExceptionHandler(value = { CollegueInvalideException.class })
     protected ResponseEntity<Object> handleConflictAjouter(CollegueInvalideException ex) {
-        String bodyOfResponse = "This should be application specific";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
