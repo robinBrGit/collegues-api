@@ -5,19 +5,26 @@ import dev.br.web.collegueapi.exception.CollegueInvalideException;
 import dev.br.web.collegueapi.exception.CollegueNonTrouveException;
 
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class CollegueServiceTest {
 
+    @Autowired
+    private CollegueService coll;
 
     @Test
     public void ajouter_un_collegue_test_nom_invalide() {
         //Test Nom
-        CollegueService coll = new CollegueService();
         assertThrows(CollegueInvalideException.class,
                 ()-> coll.ajouterUnCollegue(
                         new Collegue(
@@ -31,7 +38,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_prenom_invalide(){
         //Test prenom
-        CollegueService coll = new CollegueService();
         assertThrows(CollegueInvalideException.class,
                 ()-> coll.ajouterUnCollegue(
                         new Collegue(
@@ -45,7 +51,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_prenom_nom_valide(){
         //Test prenom valide
-        CollegueService coll = new CollegueService();
         Collegue collegue = coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -58,7 +63,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_nom_prenom_valide(){
         //Test nom valide
-        CollegueService coll = new CollegueService();
         Collegue collegue = coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -73,7 +77,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_email_valide() {
         //Test email valide
-        CollegueService coll = new CollegueService();
         Collegue collegue = coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -87,7 +90,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_email_invalide_caractere() {
         //Test Email sans @
-        CollegueService coll = new CollegueService();
         assertThrows(CollegueInvalideException.class,
                 ()-> coll.ajouterUnCollegue(
                         new Collegue(
@@ -101,7 +103,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_email_invalide_lenght() {
         //Test Email sans @
-        CollegueService coll = new CollegueService();
         assertThrows(CollegueInvalideException.class,
                 ()-> coll.ajouterUnCollegue(
                         new Collegue(
@@ -114,7 +115,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_email_invalide_caractere_lenght() {
         //Test Email sans @
-        CollegueService coll = new CollegueService();
         assertThrows(CollegueInvalideException.class,
                 ()-> coll.ajouterUnCollegue(
                         new Collegue(
@@ -129,7 +129,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_photo_url_invalide() {
         //Test photoUrl invalide
-        CollegueService coll = new CollegueService();
         assertThrows(CollegueInvalideException.class,
                 () -> coll.ajouterUnCollegue(
                         new Collegue(
@@ -143,7 +142,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_photo_url_valide() {
         //Test photoUrl invalide
-        CollegueService coll = new CollegueService();
         Collegue collegue = coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -159,7 +157,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_age_invalide(){
         //Test age invalide
-        CollegueService coll = new CollegueService();
         assertThrows(CollegueInvalideException.class,
                 () -> coll.ajouterUnCollegue(
                         new Collegue(
@@ -172,7 +169,6 @@ public class CollegueServiceTest {
     @Test
     public void ajouter_un_collegue_test_age_valide(){
         //Test age valide
-        CollegueService coll = new CollegueService();
         Collegue collegue = coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -187,7 +183,6 @@ public class CollegueServiceTest {
     @Test
     public void modifier_email_matricule_invalide() {
         //matricule invalide
-        CollegueService coll = new CollegueService();
         coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -201,7 +196,6 @@ public class CollegueServiceTest {
     @Test
     public void modifier_email_matricule_valide_email_invalide() {
         //email invalide
-        CollegueService coll = new CollegueService();
         Collegue collegue=coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -216,7 +210,6 @@ public class CollegueServiceTest {
     @Test
     public void modifier_email_matricule_valide_email_valide() {
         //email valide
-        CollegueService coll = new CollegueService();
         Collegue collegue=coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -231,7 +224,6 @@ public class CollegueServiceTest {
     @Test
     public void modifier_photo_matricule_invalide() {
         //matricule invalide
-        CollegueService coll = new CollegueService();
         coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -245,7 +237,6 @@ public class CollegueServiceTest {
     @Test
     public void modifier_photo_matricule_valide_email_invalide() {
         //email invalide
-        CollegueService coll = new CollegueService();
         Collegue collegue=coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",
@@ -260,7 +251,6 @@ public class CollegueServiceTest {
     @Test
     public void modifier_photo_matricule_valide_email_valide() {
         //email valide
-        CollegueService coll = new CollegueService();
         Collegue collegue=coll.ajouterUnCollegue(
                 new Collegue(
                         "nom",

@@ -3,49 +3,34 @@ package dev.br.web.collegueapi.service;
 import dev.br.web.collegueapi.entite.Collegue;
 import dev.br.web.collegueapi.exception.CollegueInvalideException;
 import dev.br.web.collegueapi.exception.CollegueNonTrouveException;
+import dev.br.web.collegueapi.persistence.CollegueRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
-
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+@Service
 public class CollegueService {
-    private Map<String, Collegue> data = new HashMap<>();
+    @Autowired
+    private CollegueRepository collegueRepository;
     public static final int AGE_MINIMUM = 18;
     public static final int TAILLE_MIN_NOM = 2;
     public static final int TAILLE_MIN_PRENOM = 2;
     public static final int TAILLE_MIN_EMAIL = 3;
 
     public CollegueService() {
-        // alimenter data avec des données fictives
-        // Pour générer un matricule : `UUID.randomUUID().toString()`
 
-        int count = 0;
-        String[] noms = new String[]{"Martin","Bernard","Thomas","Petit","Robert","Richard","Durand","Dubois","Moreau","Laurent"};
-        String[] prenoms = new String[]{"CAMILLE","LOUISE","LÉA","AMBRE","AGATHE","LOUIS","GABRIEL","LÉO","MAËL","PAUL"};
-
-        while(count != 20){
-            String matricule =UUID.randomUUID().toString();
-            String nom = noms[(int)(Math.random()*(9-0))].toLowerCase();
-            String prenom = prenoms[(int)(Math.random()*(9-0))];
-            String email = prenom.toLowerCase()+nom.toLowerCase()+"@email.com";
-            int annee = 1950+(int)(Math.random()*(50));
-            int mois = 1+(int)(Math.random()*(12-1));
-            int jour = 1+(int)(Math.random()*(28-1));
-            data.put(matricule,new Collegue(matricule,nom,prenom,email, LocalDate.of(annee,mois,jour),"photo.PNG"));
-            count++;
-        }
     }
 
     public List<Collegue> rechercherParNom(String nomRecherche){
-        List<Collegue> collegues = new ArrayList<>();
-        for(Map.Entry<String,Collegue> c : data.entrySet()){
-            if(c.getValue().getNom().contains(nomRecherche))collegues.add(c.getValue());
-        }
-        return collegues;
+        return collegueRepository.findByNom(nomRecherche);
     }
 
     public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException {
-        if(!data.containsKey(matriculeRecherche))throw new CollegueNonTrouveException("Collegue non trouvé");
-        return data.get(matriculeRecherche);
+        Optional<Collegue> collegueOpt = collegueRepository.findByMatricule(matriculeRecherche);
+        return collegueOpt.orElseThrow(()->new CollegueNonTrouveException("Collegue non trouvé"));
     }
 
     public Collegue ajouterUnCollegue(Collegue collegueAAjouter) throws CollegueInvalideException {
@@ -67,7 +52,7 @@ public class CollegueService {
         collegueAAjouter.setMatricule(matricule);
 
         //  Sauvegarder le collègue
-        data.put(matricule,collegueAAjouter);
+        collegueRepository.save(collegueAAjouter);
         return collegueAAjouter;
     }
 
@@ -75,7 +60,8 @@ public class CollegueService {
 
         //  retourner une exception `CollegueNonTrouveException`
         //  si le matricule ne correspond à aucun collègue
-        if(!data.containsKey(matricule))throw new CollegueNonTrouveException("Matricule non existant");
+        Optional<Collegue> collegueOpt = collegueRepository.findByMatricule(matricule);
+        Collegue collegue = collegueOpt.orElseThrow(()->new CollegueNonTrouveException("Collegue non trouvé"));
 
         //  Vérifier que l'email a au moins 3 caractères et contient `@`
         //  Si la règle ci-dessus n'est pas valide, générer une exception :
@@ -83,16 +69,16 @@ public class CollegueService {
         if(email.length() < 3 || !email.contains("@"))throw new CollegueInvalideException("Email invalide");
 
         // Modifier le collègue
-        Collegue collegue = data.get(matricule);
         collegue.setEmail(email);
-        data.put(matricule,collegue);
+        collegueRepository.save(collegue);
         return collegue;
     }
 
     public Collegue modifierPhotoUrl(String matricule, String photoUrl) throws CollegueNonTrouveException, CollegueInvalideException {
 
         //  si le matricule ne correspond à aucun collègue
-        if(!data.containsKey(matricule))throw new CollegueNonTrouveException("Matricule non existant");
+        Optional<Collegue> collegueOpt = collegueRepository.findByMatricule(matricule);
+        Collegue collegue = collegueOpt.orElseThrow(()->new CollegueNonTrouveException("Collegue non trouvé"));
 
         //  Vérifier que la photoUrl commence bien par `http`
         //  Si la règle ci-dessus n'est pas valide, générer une exception :
@@ -100,9 +86,8 @@ public class CollegueService {
         if(!photoUrl.startsWith("http"))throw new CollegueInvalideException("photoUrl invalide");
 
         //  Modifier le collègue
-        Collegue collegue = data.get(matricule);
         collegue.setPhotoUrl(photoUrl);
-        data.put(matricule,collegue);
+        collegueRepository.save(collegue);
         return collegue;
     }
 }

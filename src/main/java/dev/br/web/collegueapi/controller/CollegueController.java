@@ -3,6 +3,7 @@ package dev.br.web.collegueapi.controller;
 import dev.br.web.collegueapi.entite.Collegue;
 import dev.br.web.collegueapi.service.CollegueService;
 import dev.br.web.collegueapi.util.Constantes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @RestController
 public class CollegueController {
-    private CollegueService lesCollegues = Constantes.COLLEGUE_SERVICE;
+    @Autowired
+    private CollegueService lesCollegues;
 
     @RequestMapping(method = RequestMethod.GET,
     path = "/collegues")

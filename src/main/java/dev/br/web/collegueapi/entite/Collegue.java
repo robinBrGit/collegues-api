@@ -1,12 +1,17 @@
 package dev.br.web.collegueapi.entite;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDate;
-
+@Entity
 public class Collegue {
+    @Id
     private String matricule;
     private String nom;
     private String prenoms;
     private String email;
+    @Column(name = "date_de_naissance")
     private LocalDate dateDeNaissance;
     private String photoUrl;
 

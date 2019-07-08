@@ -14,8 +14,9 @@ POST /collegues créer un nouveau collegue dans le système (ex)
 ```json
 {
 "nom" : "xxx",
-"prenoms" : "x",
-"dateDeNaissance" : "2000-01-01",
+"prenoms" : "xxxx",
+"email" : "xxx.xxxx@xxx.xxx",
+"dateDeNaissance" : "1900-01-01",
 "photoUrl" : "https://randomuser.me/api/portraits/men/76.jpg"
 }
 ```
