@@ -2,7 +2,6 @@ package dev.br.web.collegueapi.controller;
 
 import dev.br.web.collegueapi.entite.Collegue;
 import dev.br.web.collegueapi.service.CollegueService;
-import dev.br.web.collegueapi.util.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class CollegueController {
     @Autowired
     private CollegueService lesCollegues;
+
 
     @RequestMapping(method = RequestMethod.GET,
     path = "/collegues")
@@ -35,8 +36,11 @@ public class CollegueController {
     @RequestMapping(method = RequestMethod.POST,
     path = "/collegues")
     public ResponseEntity<Object> ajouterCollegue(@RequestBody Collegue collegue){
-        Collegue col = lesCollegues.ajouterUnCollegue(collegue);
-        return ResponseEntity.status(HttpStatus.CREATED).body(col.getMatricule());
+        if (collegue.isValid()){
+            Collegue col = lesCollegues.ajouterUnCollegue(collegue);
+            return ResponseEntity.status(HttpStatus.CREATED).body(col.getMatricule());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
     }
 
     @RequestMapping(method = RequestMethod.PATCH,

@@ -15,6 +15,7 @@ import java.util.UUID;
 public class CollegueService {
     @Autowired
     private CollegueRepository collegueRepository;
+
     public static final int AGE_MINIMUM = 18;
     public static final int TAILLE_MIN_NOM = 2;
     public static final int TAILLE_MIN_PRENOM = 2;
@@ -44,8 +45,9 @@ public class CollegueService {
                 || collegueAAjouter.getPrenoms().length()< TAILLE_MIN_PRENOM)throw new CollegueInvalideException("Le nom/prenom doit contenir "+TAILLE_MIN_PRENOM+" caractère minimum");
         if(collegueAAjouter.getEmail().length() < TAILLE_MIN_EMAIL
                 || !collegueAAjouter.getEmail().contains("@"))throw new CollegueInvalideException("email invalide");
-        if(!collegueAAjouter.getPhotoUrl().startsWith("http"))throw new CollegueInvalideException("url de la photo invalide");
         if(collegueAAjouter.getDateDeNaissance().plusYears(AGE_MINIMUM).isAfter(LocalDate.now()))throw new CollegueInvalideException("Age minimum = "+AGE_MINIMUM+" ans");
+        if(!collegueAAjouter.getPhotoUrl().startsWith("http"))throw new CollegueInvalideException("url de la photo invalide");
+
 
         //  générer un matricule pour ce collègue (`UUID.randomUUID().toString()`)
         String matricule = UUID.randomUUID().toString();

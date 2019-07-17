@@ -84,4 +84,13 @@ public class Collegue {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
+
+    public boolean isValid(){
+        if(this.nom == null
+                || this.prenoms == null
+                || this.email == null
+                || this.dateDeNaissance == null
+                || this.photoUrl == null )return false;
+        return true;
+    }
 }
