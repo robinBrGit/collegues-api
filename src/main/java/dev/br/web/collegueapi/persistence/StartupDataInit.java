@@ -35,7 +35,7 @@ public class StartupDataInit {
             int annee = 1950+(int)(Math.random()*(50));
             int mois = 1+(int)(Math.random()*(12-1));
             int jour = 1+(int)(Math.random()*(28-1));
-            collegueRepo.save(new Collegue(matricule,nom,prenom,email, LocalDate.of(annee,mois,jour),"https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Man_Silhouette.png/220px-Man_Silhouette.png"));
+            collegueRepo.save(new Collegue(matricule,nom,prenom,email, LocalDate.of(annee,mois,jour),"https://www.electricien-meaux-dubot-hager.fr/media/original/13266/profil-neutre.png"));
             count++;
         }
     }
