@@ -17,6 +17,8 @@ public class RestResponseEntityExceptionHandler {
     }
     @ExceptionHandler(value = { CollegueInvalideException.class })
     protected ResponseEntity<Object> handleConflictAjouter(CollegueInvalideException ex) {
+        if(ex.getErreurs().isEmpty())
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getErreurs());
     }
 }

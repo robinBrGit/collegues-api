@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
 @Service
 public class CollegueService {
     @Autowired
@@ -25,13 +24,13 @@ public class CollegueService {
 
     }
 
-    public List<Collegue> rechercherParNom(String nomRecherche){
+    public List<Collegue> rechercherParNom(String nomRecherche) {
         return collegueRepository.findByNom(nomRecherche);
     }
 
     public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException {
         Optional<Collegue> collegueOpt = collegueRepository.findByMatricule(matriculeRecherche);
-        return collegueOpt.orElseThrow(()->new CollegueNonTrouveException("Collegue non trouvé"));
+        return collegueOpt.orElseThrow(() -> new CollegueNonTrouveException("Collegue non trouvé"));
     }
 
     public Collegue ajouterUnCollegue(Collegue collegueAAjouter) throws CollegueInvalideException {
@@ -41,12 +40,24 @@ public class CollegueService {
         //  Vérifier que la date de naissance correspond à un age >= 18
         //  Si une des règles ci-dessus n'est pas valide, générer une exception :
         // `CollegueInvalideException`.
-        if(collegueAAjouter.getNom().length() < TAILLE_MIN_NOM
-                || collegueAAjouter.getPrenoms().length()< TAILLE_MIN_PRENOM)throw new CollegueInvalideException("Le nom/prenom doit contenir "+TAILLE_MIN_PRENOM+" caractère minimum");
-        if(collegueAAjouter.getEmail().length() < TAILLE_MIN_EMAIL
-                || !collegueAAjouter.getEmail().contains("@"))throw new CollegueInvalideException("email invalide");
-        if(collegueAAjouter.getDateDeNaissance().plusYears(AGE_MINIMUM).isAfter(LocalDate.now()))throw new CollegueInvalideException("Age minimum = "+AGE_MINIMUM+" ans");
-        if(!collegueAAjouter.getPhotoUrl().startsWith("http"))throw new CollegueInvalideException("url de la photo invalide");
+        Map<String, String> erreurs = new HashMap<>();
+        if (collegueAAjouter.getNom().length() < TAILLE_MIN_NOM)
+            erreurs.put("nom", "Le nom doit contenir " + TAILLE_MIN_PRENOM + " caractère minimum");
+
+        if (collegueAAjouter.getPrenoms().length() < TAILLE_MIN_PRENOM)
+            erreurs.put("prenoms", "Le prenom doit contenir " + TAILLE_MIN_PRENOM + " caractère minimum");
+
+        if (collegueAAjouter.getEmail().length() < TAILLE_MIN_EMAIL
+                || !collegueAAjouter.getEmail().contains("@"))
+            erreurs.put("email", "email invalide");
+
+        if (collegueAAjouter.getDateDeNaissance().plusYears(AGE_MINIMUM).isAfter(LocalDate.now()))
+            erreurs.put("dateNaissance", "Age minimum = " + AGE_MINIMUM + " ans");
+
+        if (!collegueAAjouter.getPhotoUrl().startsWith("http"))
+            erreurs.put("photoUrl", "url de la photo invalide");
+
+        if(!erreurs.isEmpty())throw new CollegueInvalideException(erreurs);
 
 
         //  générer un matricule pour ce collègue (`UUID.randomUUID().toString()`)
@@ -63,12 +74,12 @@ public class CollegueService {
         //  retourner une exception `CollegueNonTrouveException`
         //  si le matricule ne correspond à aucun collègue
         Optional<Collegue> collegueOpt = collegueRepository.findByMatricule(matricule);
-        Collegue collegue = collegueOpt.orElseThrow(()->new CollegueNonTrouveException("Collegue non trouvé"));
+        Collegue collegue = collegueOpt.orElseThrow(() -> new CollegueNonTrouveException("Collegue non trouvé"));
 
         //  Vérifier que l'email a au moins 3 caractères et contient `@`
         //  Si la règle ci-dessus n'est pas valide, générer une exception :
         // `CollegueInvalideException`. avec un message approprié.
-        if(email.length() < 3 || !email.contains("@"))throw new CollegueInvalideException("Email invalide");
+        if (email.length() < 3 || !email.contains("@")) throw new CollegueInvalideException("Email invalide");
 
         // Modifier le collègue
         collegue.setEmail(email);
@@ -80,12 +91,12 @@ public class CollegueService {
 
         //  si le matricule ne correspond à aucun collègue
         Optional<Collegue> collegueOpt = collegueRepository.findByMatricule(matricule);
-        Collegue collegue = collegueOpt.orElseThrow(()->new CollegueNonTrouveException("Collegue non trouvé"));
+        Collegue collegue = collegueOpt.orElseThrow(() -> new CollegueNonTrouveException("Collegue non trouvé"));
 
         //  Vérifier que la photoUrl commence bien par `http`
         //  Si la règle ci-dessus n'est pas valide, générer une exception :
         // `CollegueInvalideException`. avec un message approprié.
-        if(!photoUrl.startsWith("http"))throw new CollegueInvalideException("photoUrl invalide");
+        if (!photoUrl.startsWith("http")) throw new CollegueInvalideException("photoUrl invalide");
 
         //  Modifier le collègue
         collegue.setPhotoUrl(photoUrl);
