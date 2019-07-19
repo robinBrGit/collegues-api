@@ -1,5 +1,6 @@
 package dev.br.web.collegueapi.service;
 
+import dev.br.web.collegueapi.dto.PhotoDTO;
 import dev.br.web.collegueapi.entite.Collegue;
 import dev.br.web.collegueapi.exception.CollegueInvalideException;
 import dev.br.web.collegueapi.exception.CollegueNonTrouveException;
@@ -106,5 +107,14 @@ public class CollegueService {
 
     public Boolean isEmailExist(String email){
         return collegueRepository.existsByEmail(email);
+    }
+
+    public List<PhotoDTO> getAllCollegueForGallerie(){
+        List<Collegue> lesCollegues = collegueRepository.findAll();
+        List<PhotoDTO> photoDTOList = new ArrayList<>();
+        for (Collegue collegue : lesCollegues){
+            photoDTOList.add(new PhotoDTO(collegue.getMatricule(),collegue.getPhotoUrl()));
+        }
+        return photoDTOList;
     }
 }

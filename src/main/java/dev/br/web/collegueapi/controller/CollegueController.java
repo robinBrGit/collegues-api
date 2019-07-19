@@ -1,5 +1,6 @@
 package dev.br.web.collegueapi.controller;
 
+import dev.br.web.collegueapi.dto.PhotoDTO;
 import dev.br.web.collegueapi.entite.Collegue;
 import dev.br.web.collegueapi.service.CollegueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,11 @@ public class CollegueController {
             body +="Photo modifié<br/>";
         }
         return (update)? ResponseEntity.status(HttpStatus.CREATED).body(body) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Parametre invalide");
+    }
+
+    @RequestMapping(method = RequestMethod.GET,
+    path = "/collegues/photos")
+    public List<PhotoDTO> getColleguesPhotos(){
+        return lesCollegues.getAllCollegueForGallerie();
     }
 }
