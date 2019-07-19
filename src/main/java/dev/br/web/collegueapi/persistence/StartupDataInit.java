@@ -29,9 +29,9 @@ public class StartupDataInit {
 
         while(count != 20){
             String matricule = UUID.randomUUID().toString();
-            String nom = noms[(int)(Math.random()*(9-0))];
-            String prenom = prenoms[(int)(Math.random()*(9-0))];
-            String email = prenom.toLowerCase()+nom.toLowerCase()+"@email.com";
+            String nom = noms[(int)(Math.random()*(9))].toUpperCase();
+            String prenom = prenoms[(int)(Math.random()*(9))];
+            String email = prenom.toLowerCase()+nom.toLowerCase()+(1+(int)(Math.random()*(50-1)))+"@email.com";
             int annee = 1950+(int)(Math.random()*(50));
             int mois = 1+(int)(Math.random()*(12-1));
             int jour = 1+(int)(Math.random()*(28-1));

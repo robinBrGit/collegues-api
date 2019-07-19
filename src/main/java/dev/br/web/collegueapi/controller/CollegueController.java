@@ -42,6 +42,11 @@ public class CollegueController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
     }
+    @RequestMapping(method = RequestMethod.POST,
+    path = "/email")
+    public ResponseEntity<Object> isEmailExist(@RequestBody String email){
+        return ResponseEntity.status(HttpStatus.OK).body(lesCollegues.isEmailExist(email));
+    }
 
     @RequestMapping(method = RequestMethod.PATCH,
     path = "/collegues/{matricule}")

@@ -10,6 +10,7 @@ public class Collegue {
     private String matricule;
     private String nom;
     private String prenoms;
+    @Column(unique = true)
     private String email;
     @Column(name = "date_de_naissance")
     private LocalDate dateDeNaissance;

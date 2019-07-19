@@ -25,7 +25,7 @@ public class CollegueService {
     }
 
     public List<Collegue> rechercherParNom(String nomRecherche) {
-        return collegueRepository.findByNom(nomRecherche);
+        return collegueRepository.findByNom(nomRecherche.toUpperCase());
     }
 
     public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException {
@@ -102,5 +102,9 @@ public class CollegueService {
         collegue.setPhotoUrl(photoUrl);
         collegueRepository.save(collegue);
         return collegue;
+    }
+
+    public Boolean isEmailExist(String email){
+        return collegueRepository.existsByEmail(email);
     }
 }
