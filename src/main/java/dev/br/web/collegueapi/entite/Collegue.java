@@ -1,9 +1,10 @@
 package dev.br.web.collegueapi.entite;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Collegue {
     @Id
@@ -15,6 +16,9 @@ public class Collegue {
     @Column(name = "date_de_naissance")
     private LocalDate dateDeNaissance;
     private String photoUrl;
+    private String motDePasse;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
 
     public Collegue() {
@@ -37,6 +41,32 @@ public class Collegue {
         this.photoUrl = photoUrl;
     }
 
+    public Collegue(String matricule, String nom, String prenoms, String email, LocalDate dateDeNaissance, String photoUrl, String motDePasse, List<String> roles) {
+        this.matricule = matricule;
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.email = email;
+        this.dateDeNaissance = dateDeNaissance;
+        this.photoUrl = photoUrl;
+        this.motDePasse = motDePasse;
+        this.roles = roles;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 
     public String getMatricule() {
         return matricule;
@@ -86,12 +116,12 @@ public class Collegue {
         this.photoUrl = photoUrl;
     }
 
-    public boolean isValid(){
-        if(this.nom == null
+    public boolean isValid() {
+        if (this.nom == null
                 || this.prenoms == null
                 || this.email == null
                 || this.dateDeNaissance == null
-                || this.photoUrl == null )return false;
+                || this.photoUrl == null) return false;
         return true;
     }
 }

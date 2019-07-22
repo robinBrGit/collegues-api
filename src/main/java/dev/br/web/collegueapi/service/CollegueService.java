@@ -1,5 +1,6 @@
 package dev.br.web.collegueapi.service;
 
+import dev.br.web.collegueapi.dto.CollegueLite;
 import dev.br.web.collegueapi.dto.PhotoDTO;
 import dev.br.web.collegueapi.entite.Collegue;
 import dev.br.web.collegueapi.exception.CollegueInvalideException;
@@ -27,6 +28,11 @@ public class CollegueService {
 
     public List<Collegue> rechercherParNom(String nomRecherche) {
         return collegueRepository.findByNom(nomRecherche.toUpperCase());
+    }
+
+    public CollegueLite rechercherParMatriculeLite(String matriculeRecherche) throws CollegueNonTrouveException {
+        Optional<CollegueLite> collegueOpt = collegueRepository.findByMatriculeLite(matriculeRecherche);
+        return collegueOpt.orElseThrow(() -> new CollegueNonTrouveException("Collegue non trouvé"));
     }
 
     public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException {
@@ -64,6 +70,7 @@ public class CollegueService {
         //  générer un matricule pour ce collègue (`UUID.randomUUID().toString()`)
         String matricule = UUID.randomUUID().toString();
         collegueAAjouter.setMatricule(matricule);
+        collegueAAjouter.setNom(collegueAAjouter.getNom().toUpperCase());
 
         //  Sauvegarder le collègue
         collegueRepository.save(collegueAAjouter);
