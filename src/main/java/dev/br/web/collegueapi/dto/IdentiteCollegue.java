@@ -6,13 +6,26 @@ public class IdentiteCollegue {
     private String matricule;
     private String nom;
     private String prenoms;
+    private String photoUrl;
     private List<String> roles;
 
-    public IdentiteCollegue(String matricule, String nom, String prenoms, List<String> roles) {
+    public IdentiteCollegue(String matricule, String nom, String prenoms, String photoUrl,List<String> roles) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenoms = prenoms;
         this.roles = roles;
+        this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public IdentiteCollegue() {
     }
 
     public String getMatricule() {

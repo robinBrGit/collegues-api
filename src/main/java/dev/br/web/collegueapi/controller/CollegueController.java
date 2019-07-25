@@ -85,6 +85,6 @@ public class CollegueController {
     public IdentiteCollegue getIdentiteCollegue(){
         String matricule = SecurityContextHolder.getContext().getAuthentication().getName();
         Collegue collegue = lesCollegues.rechercherParMatricule(matricule);
-        return new IdentiteCollegue(collegue.getMatricule(),collegue.getNom(),collegue.getPrenoms(),collegue.getRoles());
+        return new IdentiteCollegue(collegue.getMatricule(),collegue.getNom(),collegue.getPrenoms(),collegue.getPhotoUrl(),collegue.getRoles());
     }
 }
