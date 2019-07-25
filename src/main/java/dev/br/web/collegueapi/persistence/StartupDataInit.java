@@ -1,19 +1,13 @@
 package dev.br.web.collegueapi.persistence;
 
-import dev.br.web.collegueapi.dto.RandomUser;
-import dev.br.web.collegueapi.dto.RandomUserResult;
 import dev.br.web.collegueapi.entite.Collegue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.UUID;
 
